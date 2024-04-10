@@ -25,9 +25,7 @@ SECRET_KEY = '(b%y6my(@zizf(agz!*6j+picf^!%tfikl#8hk3@+=e!s4a8bo'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.100.89',
-                 '192.168.100.41',
-                 '127.0.0.1']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -106,7 +104,6 @@ DATABASES = {
         'PORT': '3306',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators

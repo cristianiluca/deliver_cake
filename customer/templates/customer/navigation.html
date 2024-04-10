@@ -1,0 +1,35 @@
+{% load cart_tags %}
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color:#ff96fa;">
+  <a class="navbar-brand" href="{% url 'index' %}">Acasa</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'about' %}">Despre noi</span></a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="{% url 'menu' %}">Produse</a>
+      </li>
+    </ul>
+          <!-- Cart icon with item count -->
+    <a href="{% url 'cart:view_cart' %}" class="nav-item nav-link">
+        <i class="fa fa-shopping-cart"></i> Comanda
+        {% cart_item_count as cart_count %}
+        {% if cart_count %}
+            <span class="badge badge-pill" style="background-color: black;">{{ cart_count }}</span>
+        {% endif %}
+    </a>
+  </div>
+</nav>
+<style>
+    .navbar-brand, .nav-item.nav-link {
+        color: black; /* Change the color of navbar brand and links to black */
+    }
+    .badge {
+        background-color: black; /* Change the background color of the badge to black */
+        color: white; /* Change the text color of the badge to white */
+    }
+</style>

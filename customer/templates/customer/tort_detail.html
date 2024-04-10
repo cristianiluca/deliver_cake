@@ -1,0 +1,22 @@
+{% extends 'customer/base.html' %}
+
+{% block content %}
+
+<div class = "container" style="padding-top: 30px">
+    <br><br>
+    <div class="row">
+        <div class="col-md-5">
+          <br>
+          <img class="rounded" src="{{ item.image.url }}" width="450" height="400">
+          <br><br>
+          <h3 class="card-title text-center ">{{ item.name }}</h3>
+          <h5 class="card-title text-center ">Pret  {{ item.price }} lei/kg</h5>
+        </div>
+        <div class="col-md-7 shadow-lg p-3 mb-5 bg-white rounded">
+          <h1 class="my-3">Descriere</h1>
+          <p class = "lead">{{ item.description }}</p>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

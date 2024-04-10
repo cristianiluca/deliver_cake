@@ -1,0 +1,45 @@
+{% extends 'customer/base.html' %}
+
+{% block content %}
+<style>
+    /* Style the "Buy Now" button */
+    .buy-now-button {
+        display: block;
+        margin-top: 10px;
+        margin-right: 45px;
+        background-color:#ff96fa;
+        color: #fff;
+        text-decoration: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+</style>
+<div class = "container" style="padding-top: 30px">
+    <br><br>
+    <div class="row">
+        <div class="col-md-5">
+          <br>
+          <img class="rounded" src="{{ product.image.url }}" width="450" height="400">
+          <br><br>
+          <h3 class="card-title text-center ">{{ product.name }}</h3>
+          <h5 class="card-title text-center ">Pret  {{ product.price }} lei/kg</h5>
+        </div>
+        <div class="col-md-7 shadow-lg p-3 mb-5 bg-white rounded">
+          <h1 class="my-3">Descriere</h1>
+          <p class = "lead">{{ product.description }}</p>
+        <br/>
+            <br/>
+                <div class="row justify-content-center">
+                <form action="{% url 'cart:add_to_cart' product.id %}" method="post">
+                    {% csrf_token %}
+                    {{ form }}
+                    <input type="submit" value="Adauga la comanda">
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

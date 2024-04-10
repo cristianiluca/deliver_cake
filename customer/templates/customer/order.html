@@ -1,0 +1,208 @@
+{% extends 'customer/base.html' %}
+
+{% block content %}
+
+<!-- Other head elements -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<div class="container mb-5" style="padding-top:50px">
+    <div class="row justify-content-center mt-1">
+        <div class="col-md-12 col-sm-12 p-4">
+            <h3>Date facturare</h3>
+            <form method="POST" id="order_form">
+                {% csrf_token %}
+                <div class="form-group pt-3">
+                    <label>Nume complet (nume companie - opțional)</label>
+                    <input required class="form-control" type="text" placeholder="Your Name" name="name" />
+                </div>
+
+                <div class="form-group pt-3">
+                    <label>Email</label>
+                    <input required class="form-control" type="text" placeholder="example@company.com" name="email" />
+                </div>
+
+                <div class="form-group pt-3">
+                    <label>Strada</label>
+                    <input required class="form-control" type="text" placeholder="1234 Main St" name="street" />
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 col-sm-12">
+                        <div class="form-group pt-3">
+                            <label>Localitate</label>
+                            <input required class="form-control" type="text" placeholder="San Francisco" name="city" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-12">
+                        <div class="form-group pt-3">
+                            <label>Judet</label>
+                            <input required class="form-control" type="text" placeholder="CA" name="state" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-12">
+                        <div class="form-group pt-3">
+                            <label>Cod postal</label>
+                            <input required class="form-control" type="text" placeholder="94117" name="zip" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div class="form-group pt-3">
+                            <label>Numar telefon</label>
+                            <input required class="form-control" type="text" placeholder="......" name="phone" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div class="form-group pt-3">
+                            <label>Data livrare</label>
+                            <input class="form-control" type="text" placeholder="Select date" name="deliver_date" id="deliver_date">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div class="form-group pt-3">
+                            <label>Ora livrare</label>
+                            <input class="form-control" type="text" placeholder="Select time" name="deliver_time" id="deliver_time">
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-1">
+                    <div class="col-md-12 col-sm-12 p-3">
+                        <div class="form-group pt-3">
+                            <label>Mesaj decorare tort (opțional)</label>
+                            <input class="form-control" type="text" placeholder="Mesajul pentru decorarea tortului" name="cake_text">
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Deliver to another address checkbox -->
+                <div class="d-flex flex-row">
+                    <div class="form-group form-check">
+                        <input type="checkbox" id="deliver_to_another_address" name="deliver_to_another_address">
+                        <label class="form-check-label font-weight-bold">Livrare la alta adresa</label>
+                    </div>
+                </div>
+
+                     <!-- Delivery Address Form (Initially Hidden) -->
+                    <div id="delivery_address_form" style="display: none;">
+                        <h2>Adresa livrare</h2>
+                        <div class="form-group pt-3">
+                            <label>Nume complet (nume companie - opțional)</label>
+                            <input required class="form-control" type="text" placeholder="Your Name" name="deliver_name" />
+                        </div>
+
+                        <div class="form-group pt-3">
+                            <label>Email</label>
+                            <input required class="form-control" type="text" placeholder="example@company.com" name="deliver_email" />
+                        </div>
+
+                        <div class="form-group pt-3">
+                            <label>Strada</label>
+                            <input required class="form-control" type="text" placeholder="1234 Main St" name="deliver_street" />
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 col-sm-12">
+                                <div class="form-group pt-3">
+                                    <label>Localitate</label>
+                                    <input required class="form-control" type="text" placeholder="San Francisco" name="deliver_city" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-sm-12">
+                                <div class="form-group pt-3">
+                                    <label>Judet</label>
+                                    <input required class="form-control" type="text" placeholder="CA" name="deliver_state" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-sm-12">
+                                <div class="form-group pt-3">
+                                    <label>Cod postal</label>
+                                    <input required class="form-control" type="text" placeholder="94117" name="deliver_zip" />
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <div class="form-group pt-3">
+                                    <label>Numar telefon</label>
+                                    <input required class="form-control" type="text" placeholder="......" name="deliver_phone" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                            <!--button type="submit" class="btn-dark">Transmiteti comanda</button-->
+            <!-- Submit button for both forms -->
+    <button type="button" class="btn-dark" id="submit_button">Submit Order</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Initialize flatpickr with options
+    flatpickr("#deliver_date", {
+        enableTime: false, // Set to true if you want to include time selection
+        dateFormat: "Y-m-d", // Set the desired date format
+        minDate: "today" // Optionally, set minimum selectable date
+    });
+</script>
+
+<!--script>
+    // Get references to the checkbox and delivery address form
+    const deliverCheckbox = document.getElementById('deliver_to_another_address');
+    const deliveryForm = document.getElementById('delivery_address_form');
+
+    // Add event listener to checkbox to toggle form visibility
+    deliverCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            deliveryForm.style.display = 'block';
+        } else {
+            deliveryForm.style.display = 'none';
+        }
+    });
+</script-->
+
+<script>
+    // Get references to the checkbox and delivery address form
+    const deliverCheckbox = document.getElementById('deliver_to_another_address');
+    const deliveryForm = document.getElementById('delivery_address_form');
+    const submitButton = document.getElementById('submit_button');
+
+    // Add event listener to checkbox to toggle form visibility
+    deliverCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            deliveryForm.style.display = 'block';
+        } else {
+            deliveryForm.style.display = 'none';
+        }
+    });
+
+
+    // Add event listener to submit button
+    submitButton.addEventListener('click', function() {
+        // Check if the checkbox is checked
+        if (deliverCheckbox.checked) {
+            // If checked, submit both forms
+            document.getElementById('order_form').submit(),
+            document.getElementById('delivery_address_form').submit();
+        } else {
+            // If not checked, submit only the billing address form
+            document.getElementById('order_form').submit();
+        }
+    });
+</script>
+
+
+<script>
+    // Initialize the time picker
+    flatpickr("#deliver_time", {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i", // 24-hour format
+        // You can customize further options as per your requirement
+    });
+</script>
+{% endblock content %}
